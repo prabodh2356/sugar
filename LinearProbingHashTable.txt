@@ -1,0 +1,128 @@
+import java.util.Scanner;
+
+public class LinearProbingHashTable {
+    private int[] table;
+    private int size;
+    private static final int EMPTY = -1;
+    private static final int DELETED = -2;
+
+    // Constructor
+    public LinearProbingHashTable(int size) {
+        this.size = size;
+        table = new int[size];
+        for (int i = 0; i < size; i++) {
+            table[i] = EMPTY; // Initialize all slots as empty
+        }
+    }
+
+    // Hash function using division method
+    private int hashFunction(int key) {
+        return key % size;
+    }
+
+    // Insert a key into the hash table
+    public void insert(int key) {
+        int index = hashFunction(key);
+        int originalIndex = index;
+        int i = 0;
+
+        while (table[index] != EMPTY && table[index] != DELETED && i < size) {
+            index = (originalIndex + ++i) % size; // Linear probing
+        }
+
+        if (i == size) {
+            System.out.println("Hash table is full. Cannot insert key " + key);
+            return;
+        }
+
+        table[index] = key;
+        System.out.println("Inserted key " + key + " at index " + index);
+    }
+
+    // Search for a key in the hash table
+    public int search(int key) {
+        int index = hashFunction(key);
+        int originalIndex = index;
+        int i = 0;
+
+        while (table[index] != EMPTY && i < size) {
+            if (table[index] == key) {
+                System.out.println("Key " + key + " found at index " + index);
+                return index;
+            }
+            index = (originalIndex + ++i) % size;
+        }
+
+        System.out.println("Key " + key + " not found.");
+        return -1;
+    }
+
+    // Delete a key from the hash table
+    public void delete(int key) {
+        int index = search(key);
+        if (index == -1) {
+            System.out.println("Cannot delete. Key " + key + " not found.");
+            return;
+        }
+        table[index] = DELETED;
+        System.out.println("Deleted key " + key + " from index " + index);
+    }
+
+    // Display the hash table
+    public void display() {
+        System.out.println("Hash Table:");
+        for (int i = 0; i < size; i++) {
+            if (table[i] == EMPTY) {
+                System.out.println("Index " + i + ": EMPTY");
+            } else if (table[i] == DELETED) {
+                System.out.println("Index " + i + ": DELETED");
+            } else {
+                System.out.println("Index " + i + ": " + table[i]);
+            }
+        }
+    }
+
+    // Main method to interact with the user
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        LinearProbingHashTable ht = new LinearProbingHashTable(10);
+
+        while (true) {
+            System.out.println("\nHash Table Operations:");
+            System.out.println("1. Insert");
+            System.out.println("2. Search");
+            System.out.println("3. Delete");
+            System.out.println("4. Display");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter key to insert: ");
+                    int keyInsert = sc.nextInt();
+                    ht.insert(keyInsert);
+                    break;
+                case 2:
+                    System.out.print("Enter key to search: ");
+                    int keySearch = sc.nextInt();
+                    ht.search(keySearch);
+                    break;
+                case 3:
+                    System.out.print("Enter key to delete: ");
+                    int keyDelete = sc.nextInt();
+                    ht.delete(keyDelete);
+                    break;
+                case 4:
+                    ht.display();
+                    break;
+                case 5:
+                    System.out.println("Exiting program...");
+                    sc.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}

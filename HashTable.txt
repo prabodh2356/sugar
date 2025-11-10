@@ -1,0 +1,112 @@
+import java.util.LinkedList;
+
+class HashTable {
+    private int size;
+    private LinkedList<Pair>[] table;
+
+    // Pair class to hold key-value pairs
+    static class Pair {
+        int key;
+        String value;
+
+        Pair(int key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + key + ", " + value + ")";
+        }
+    }
+
+    // Constructor
+    public HashTable(int size) {
+        this.size = size;
+        table = new LinkedList[size];
+        for (int i = 0; i < size; i++) {
+            table[i] = new LinkedList<>();
+        }
+    }
+
+    // Default constructor (size = 10)
+    public HashTable() {
+        this(10);
+    }
+
+    // Hash function using division method
+    private int hashFunction(int key) {
+        return key % size;
+    }
+
+    // Insert key-value pair
+    public void insert(int key, String value) {
+        int index = hashFunction(key);
+        LinkedList<Pair> bucket = table[index];
+
+        for (Pair pair : bucket) {
+            if (pair.key == key) {
+                pair.value = value; // Update existing key
+                System.out.println("Updated key " + key + " with value " + value);
+                return;
+            }
+        }
+
+        bucket.add(new Pair(key, value));
+        System.out.println("Inserted key " + key + " with value " + value);
+    }
+
+    // Search for a value by key
+    public String search(int key) {
+        int index = hashFunction(key);
+        LinkedList<Pair> bucket = table[index];
+
+        for (Pair pair : bucket) {
+            if (pair.key == key) {
+                return pair.value;
+            }
+        }
+
+        return null; // Not found
+    }
+
+    // Delete a key-value pair
+    public void delete(int key) {
+        int index = hashFunction(key);
+        LinkedList<Pair> bucket = table[index];
+
+        for (Pair pair : bucket) {
+            if (pair.key == key) {
+                bucket.remove(pair);
+                System.out.println("Deleted key " + key);
+                return;
+            }
+        }
+
+        System.out.println("Key " + key + " not found for deletion.");
+    }
+
+    // Display the hash table
+    public void display() {
+        System.out.println("Hash Table:");
+        for (int i = 0; i < size; i++) {
+            System.out.print("Index " + i + ": ");
+            System.out.println(table[i]);
+        }
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        HashTable ht = new HashTable();
+
+        ht.insert(15, "apple");
+        ht.insert(25, "banana"); // Collision with 15
+        ht.insert(35, "cherry"); // Collision again
+
+        System.out.println("Search 25: " + ht.search(25)); // Output: banana
+        ht.delete(25);
+        System.out.println("Search 25 after deletion: " + ht.search(25)); // Output: null
+
+        ht.display();
+    }
+}

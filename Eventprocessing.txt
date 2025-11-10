@@ -1,0 +1,92 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class EventProcessingSystem {
+    private static Queue<String> eventQueue = new LinkedList<>();
+
+    // Add an Event
+    public static void addEvent(String event) {
+        eventQueue.add(event);
+        System.out.println("Event '" + event + "' added to the queue.");
+    }
+
+    // Process the Next Event
+    public static void processNextEvent() {
+        if (!eventQueue.isEmpty()) {
+            String event = eventQueue.poll();
+            System.out.println("Processed event: '" + event + "'");
+        } else {
+            System.out.println("No events to process.");
+        }
+    }
+
+    // Display Pending Events
+    public static void displayPendingEvents() {
+        if (!eventQueue.isEmpty()) {
+            System.out.println("Pending Events:");
+            int index = 1;
+            for (String event : eventQueue) {
+                System.out.println(index + ". " + event);
+                index++;
+            }
+        } else {
+            System.out.println("No pending events.");
+        }
+    }
+
+    // Cancel an Event
+    public static void cancelEvent(String eventName) {
+        if (eventQueue.contains(eventName)) {
+            eventQueue.remove(eventName);
+            System.out.println("Event '" + eventName + "' has been canceled.");
+        } else {
+            System.out.println("Event '" + eventName + "' not found or already processed.");
+        }
+    }
+
+    // Menu System
+    public static void menu() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n--- EVENT MENU ---");
+            System.out.println("1. Add Event");
+            System.out.println("2. Process Next Event");
+            System.out.println("3. Display Pending Events");
+            System.out.println("4. Cancel an Event");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter event name: ");
+                    String event = sc.nextLine();
+                    addEvent(event);
+                    break;
+                case "2":
+                    processNextEvent();
+                    break;
+                case "3":
+                    displayPendingEvents();
+                    break;
+                case "4":
+                    System.out.print("Enter event name to cancel: ");
+                    String eventName = sc.nextLine();
+                    cancelEvent(eventName);
+                    break;
+                case "5":
+                    System.out.println("Exiting Event Processing System.");
+                    sc.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        menu();
+    }
+}

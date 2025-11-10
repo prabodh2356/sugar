@@ -1,0 +1,62 @@
+public class EmployeeSalarySort {
+
+    // -------- a) Selection Sort --------
+    public static void selectionSort(double[] salaries) {
+        int n = salaries.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (salaries[j] < salaries[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // Swap
+            double temp = salaries[i];
+            salaries[i] = salaries[minIndex];
+            salaries[minIndex] = temp;
+        }
+    }
+
+    // -------- b) Bubble Sort --------
+    public static void bubbleSort(double[] salaries) {
+        int n = salaries.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (salaries[j] > salaries[j + 1]) {
+                    // Swap
+                    double temp = salaries[j];
+                    salaries[j] = salaries[j + 1];
+                    salaries[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // -------- Display top 5 salaries --------
+    public static void displayTopFive(double[] salaries) {
+        int count = Math.min(5, salaries.length);
+        System.out.print("[ ");
+        for (int i = salaries.length - 1; i >= salaries.length - count; i--) {
+            System.out.print(salaries[i]);
+            if (i != salaries.length - count) System.out.print(", ");
+        }
+        System.out.println(" ]");
+    }
+
+    public static void main(String[] args) {
+        // Sample list of employee salaries
+        double[] salaries = {45000.0, 38000.5, 52000.75, 61000.0, 47000.0, 70000.0, 56000.0, 49000.5};
+
+        // -------- Using Selection Sort --------
+        double[] selectionSorted = salaries.clone();
+        selectionSort(selectionSorted);
+        System.out.print("Top 5 salaries (Selection Sort): ");
+        displayTopFive(selectionSorted);
+
+        // -------- Using Bubble Sort --------
+        double[] bubbleSorted = salaries.clone();
+        bubbleSort(bubbleSorted);
+        System.out.print("Top 5 salaries (Bubble Sort): ");
+        displayTopFive(bubbleSorted);
+    }
+}
