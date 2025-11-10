@@ -131,6 +131,13 @@ public class StudentRecordManagement {
             System.out.println("6. Exit");
             System.out.print("Enter your choice (1-6): ");
 
+            // Validate choice input
+            if (!sc.hasNextInt()) {
+                System.out.println("❌ Invalid input. Please enter a number between 1 and 6.");
+                sc.nextLine(); // clear invalid input
+                continue;
+            }
+
             int choice = sc.nextInt();
             sc.nextLine(); // clear buffer
 
@@ -138,7 +145,7 @@ public class StudentRecordManagement {
                 case 1:
                     System.out.print("Enter Roll No: ");
                     int roll = sc.nextInt();
-                    sc.nextLine();
+                    sc.nextLine(); // clear buffer
                     System.out.print("Enter Name: ");
                     String name = sc.nextLine();
                     System.out.print("Enter Marks: ");
@@ -155,7 +162,7 @@ public class StudentRecordManagement {
                 case 3:
                     System.out.print("Enter Roll No to Update: ");
                     int rollUp = sc.nextInt();
-                    sc.nextLine();
+                    sc.nextLine(); // clear buffer
                     System.out.print("Enter New Name: ");
                     String newName = sc.nextLine();
                     System.out.print("Enter New Marks: ");
@@ -170,7 +177,6 @@ public class StudentRecordManagement {
                     break;
 
                 case 5:
-                    sc.nextLine();
                     System.out.print("Sort by 'roll_no' or 'marks': ");
                     String sortBy = sc.nextLine();
                     System.out.print("Order 'asc' or 'desc': ");
